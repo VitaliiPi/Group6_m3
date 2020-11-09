@@ -1,3 +1,4 @@
+require('dotenv').config();
 var restify = require('restify');
 var bcrypt = require('bcrypt');
 var server = restify.createServer();
@@ -9,7 +10,7 @@ var mongoose = require('mongoose');
 var saltRound = 10;
 var Schema = mongoose.Schema;
 var PORT = process.env.PORT;
-var ipaddress = process.env.IP;
+var HOST = process.env.IP;
 
 var uristring = process.env.MONGODB_URI || 'mongodb+srv://admin:admin@cluster0.b8raf.mongodb.net/PatientRecordsDB?retryWrites=true&w=majority';
 
@@ -23,8 +24,8 @@ mongoose.connect(uristring, function(err, res){
 
 server.use(restify.plugins.bodyParser({ mapParams: false }));
 
-server.listen(PORT, function() {
-  console.log('%s listening at %s', server.name, server.url);
+server.listen(PORT, HOST, function() {
+    console.log(`Server ${server.name} listening at ${server.url}`)
   console.log('Endpoints:');
   console.log('%s/patients method: GET, POST', server.url);
   console.log('%s/patients/:id method: PUT, GET', server.url);
