@@ -1,0 +1,16 @@
+{
+    "name": "VP & DA - MAPD713",
+    "version": "1.0.0",
+    "description": "Patient Records Server",
+    "main": "index.js",
+    "author": "Group 6",
+    "dependencies": {
+        "mongodb": "^3.3.4",
+        "bcrypt": "^3.0.7",
+        "mongoose": "^5.7.7",
+        "restify": "8.4.0"
+    },
+    "scripts": {
+        "start": "node index.js"
+    }
+}
