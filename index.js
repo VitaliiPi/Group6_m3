@@ -12,6 +12,7 @@ var Schema = mongoose.Schema;
 var PORT = process.env.PORT;
 var HOST = process.env.IP;
 
+//connection string, we chose Mongo DB Atlas cloud
 var uristring = process.env.MONGODB_URI || 'mongodb://localhost:27017/PatientClinicalDatabase';
 
 mongoose.connect(uristring, function(err, res){
