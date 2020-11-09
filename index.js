@@ -12,7 +12,7 @@ var Schema = mongoose.Schema;
 var PORT = process.env.PORT;
 var HOST = process.env.IP;
 
-var uristring = process.env.MONGODB_URI || 'mongodb+srv://admin:admin@cluster0.b8raf.mongodb.net/PatientRecordsDB?retryWrites=true&w=majority';
+var uristring = process.env.MONGODB_URI || 'mongodb://localhost:27017/PatientClinicalDatabase';
 
 mongoose.connect(uristring, function(err, res){
     if (err){
@@ -34,6 +34,7 @@ server.listen(PORT, HOST, function() {
   console.log('%s/records/:id method: PUT', server.url);
 });
 
+
 // GET request for patients
 server.get('/patients', getPatients);
 
@@ -49,22 +50,22 @@ server.put('/patients/:id', editPatient);
 // DELETE request for patients
 server.del('/patients/:id', deletePatient);
 
-//GET request for patient records
-server.get('/patients/records', getPatientRecords);
+//GET request for vitals
+server.get('/patients/records', getVitals);
 
 //GET request for record by ID
 server.get('/patients/:id/records', findRecordByPatientId);
 
-//POST request for patient records
+//POST request for vitals
 server.post('/patients/:id/records', addNewRecord);
 
 // DELETE request for all records of a patient
-server.del('/patients/:id/records', deletePatientRecords);
+server.del('/patients/:id/records', deleteVitals);
 
-//GET request for patient records
+//GET request for vitals
 server.get('/patients/:patientId/records/:id', getOnePatientRecord);
 
-//PUT request for patient records
+//PUT request for vitals
 server.put('/patients/:patientId/records/:id', editPatientRecord);
 
 // DELETE request for patients
@@ -79,37 +80,6 @@ server.post('/users', addNewUser);
 // GET request to validate user password
 server.get('/users/:username/:password', validateUser);
 
-// POST request to add new user
-server.post('/localizations', addNewStrings);
-
-// GET request to validate user password
-server.get('/localizations/:index', retrieveString);
-
-// Define a new 'PatientSchema'
-var PatientSchema = new Schema({
-    "first_name": String, 
-    "last_name": String, 
-    "age": Number,
-    "date_of_birth": Date,
-    "sin": String, 
-    "address": String, 
-    "emergency_contact_name": String, 
-    "emergency_contact_number": String, 
-    "admission_date": Date, 
-    "in_critical_condition": Boolean
-});
-
-var PatientRecordSchema = new Schema({
-    "patient_id": String,
-    "date": Date,
-    "data_type":{
-        type: String,
-        enum: ['Blood Pressure', 'Respiratory Rate', 'Blood Oxygen Level', 'Heart Beat Rate'],
-        default: 'NEW'
-    },
-    "reading1": String,
-    "reading2":String
-});
 
 // Define a new 'UserSchema'
 var UserSchema = new Schema({
@@ -117,24 +87,47 @@ var UserSchema = new Schema({
         type: String,
         unique: true
     }, 
-    "password": String
+    "password": String,
+    "email": String
+},
+{
+    versionKey: false
 });
 
-// Define a new 'LocalizationSchema'
-var LocalizationSchema = new Schema({
-    "index": {
-        type: Number,
-        unique: true
-    },
-    "english": String, 
-    "french": String
+// Define a new 'PatientSchema'
+var PatientSchema = new Schema({
+    "user_id": String,
+    "name": String, 
+    "phone_number": String,
+    "room": String,
+    "address": String,  
+    "notes": String, 
+    "in_critical_condition": Boolean
+},
+{
+    versionKey: false
 });
+
+// Define a new 'VitalsSchema'
+var VitalSchema = new Schema({
+    "patient_id": String,
+    "data_type":{
+        type: String,
+        enum: ['Blood Pressure', 'Respiratory Rate', 'Blood Oxygen Level', 'Heart Beat Rate'],
+        default: 'NEW'
+    }
+},
+{
+    versionKey: false
+});
+
+
 
 // Create models out of the schemas
-var Patient = mongoose.model('Patient', PatientSchema);
-var Record = mongoose.model('PatientRecords', PatientRecordSchema);
 var User = mongoose.model('User', UserSchema);
-var Localization = mongoose.model('Localization', LocalizationSchema);
+var Patient = mongoose.model('Patient', PatientSchema);
+var Record = mongoose.model('Vitals', VitalSchema);
+
 
 
 function getPatients(req, res, next){
@@ -147,7 +140,7 @@ function getPatients(req, res, next){
     });
 }
 
-function getPatientRecords(req, res, next){
+function getVitals(req, res, next){
     Record.find({}, function (err, records) {
         if (err) {
             return next(err);
@@ -182,7 +175,7 @@ function deletePatient(req, res, next){
 
 }
 
-function deletePatientRecords(req, res, next){
+function deleteVitals(req, res, next){
     Record.deleteMany({ patient_id: req.params.id}, function (err) {
         if (err){
             return next(err);
@@ -318,24 +311,6 @@ function validateUser(req, res, next){
     });
 }
 
-function addNewStrings(req, res, next){
-    var newString = new Localization(req.body);
-    newString.save(function (err) {
-        if (err) {
-            return next(err);
-        } else {
-            res.json(newString);
-        }
-    });
-}
 
-function retrieveString(req, res, next){
-    Localization.find( { index: req.params.index }, function (err, localizationString) {
-        if (err) {
-            return next(err);
-        } else {
-            res.json(localizationString);
-        }
-    });
-}
+
 
