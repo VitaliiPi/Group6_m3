@@ -117,7 +117,7 @@ var VitalSchema = new Schema({
     "respiratoryRate": String,
     "bloodOxigen": String,
     "hearthRate": String,
-    "date": String
+    "date": Date
 },
 {
     versionKey: false
@@ -292,6 +292,7 @@ function addNewUser(req, res, next){
 }
 
 function validateUser(req, res, next){
+    console.log(req.params.username)
     User.find( { username: req.params.username }, function (err, user) {
         if (err) {
             return next(err);
