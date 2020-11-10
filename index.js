@@ -128,11 +128,10 @@ var PatientSchema = new Schema({
 // Define a new 'VitalsSchema'
 var VitalSchema = new Schema({
     "patient_id": String,
-    "data_type":{
-        type: String,
-        enum: ['Blood Pressure', 'Respiratory Rate', 'Blood Oxygen Level', 'Heart Beat Rate'],
-        default: 'NEW'
-    }
+    "blood_pressure": String,
+    "respiratory rate": String,
+    "blood oxygen level": String,
+    "heart rate": String
 },
 {
     versionKey: false
