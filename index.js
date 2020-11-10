@@ -299,7 +299,8 @@ function validateUser(req, res, next){
             if (user.length > 0){
                 bcrypt.compare(req.params.password, user[0].password, function(err, result) {
                     if (result == true){
-                        res.json({'validated':'true'});
+                        console.log(user[0]._id)
+                        res.json({'validated':'true', "user_id":user[0]._id});
                     }
                     else{
                         res.json({'validated':'false'});
