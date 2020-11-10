@@ -1,6 +1,6 @@
 {
     "name": "VP_and_DA_MAPD713",
-    "version": "1.0.0",
+    "version": "3.0.0",
     "description": "Patient Records Server",
     "main": "index.js",
     "author": "Group 6",

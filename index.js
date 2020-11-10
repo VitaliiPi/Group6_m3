@@ -22,14 +22,14 @@ mongoose.connect(uristring, function(err, res){
     if (err){
         console.log('ERROR connecting to: ' + uristring + ', ' + err);
     }else{
-        console.log ('Succeeded connected to: ' + uristring);
+        console.log ('Successfully connected to: ' + uristring);
     }
 });
 
 server.use(restify.plugins.bodyParser({ mapParams: false }));
 
 server.listen(PORT, HOST, function() {
-    console.log(`Server ${server.name} listening at ${server.url}`)
+  console.log(`Server ${server.name} listening at ${server.url}`)
   console.log('Endpoints:');
   console.log('%s/patients method: GET, POST', server.url);
   console.log('%s/patients/:id method: PUT, GET', server.url);
@@ -39,20 +39,12 @@ server.listen(PORT, HOST, function() {
 });
 
 
+
 // GET request for patients
 server.get('/patients', getPatients);
 
 //GET request for patient by id
 server.get('/patients/:id', findPatientById);
-
-// POST request for patients
-server.post('/patients', addNewPatient);
-
-// PUT request for patients
-server.put('/patients/:id', editPatient);
-
-// DELETE request for patients
-server.del('/patients/:id', deletePatient);
 
 //GET request for vitals
 server.get('/patients/records', getVitals);
@@ -60,29 +52,50 @@ server.get('/patients/records', getVitals);
 //GET request for record by ID
 server.get('/patients/:id/records', findRecordByPatientId);
 
-//POST request for vitals
-server.post('/patients/:id/records', addNewRecord);
-
-// DELETE request for all records of a patient
-server.del('/patients/:id/records', deleteVitals);
-
 //GET request for vitals
 server.get('/patients/:patientId/records/:id', getOnePatientRecord);
 
-//PUT request for vitals
-server.put('/patients/:patientId/records/:id', editPatientRecord);
+// GET request to validate user password
+server.get('/users/:username/:password', validateUser);
 
-// DELETE request for patients
-server.del('/patients/:patientId/records/:id', deleteRecord);
 
-//PUT request to flag critical patients
-server.put('/patients/:id/:isCritical', flagCriticalPatient);
+
+// POST request for patients
+server.post('/patients', addNewPatient);
+
+//POST request for vitals
+server.post('/patients/:id/records', addNewRecord);
 
 // POST request to add new user
 server.post('/users', addNewUser);
 
-// GET request to validate user password
-server.get('/users/:username/:password', validateUser);
+
+
+//PUT(update) request for patients
+server.put('/patients/:id', editPatient);
+
+//PUT(update) request for vitals
+server.put('/patients/:patientId/records/:id', editPatientRecord);
+
+//PUT(update) request to flag critical patients
+server.put('/patients/:id/:isCritical', flagCriticalPatient);
+
+
+
+// DELETE request for patients
+server.del('/patients/:id', deletePatient);
+
+// DELETE request for all records of a patient
+server.del('/patients/:id/records', deleteVitals);
+
+// DELETE request for patients
+server.del('/patients/:patientId/records/:id', deleteRecord);
+
+
+
+
+
+
 
 
 // Define a new 'UserSchema'
