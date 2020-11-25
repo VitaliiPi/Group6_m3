@@ -10,9 +10,11 @@
     "dependencies": {
         "bcrypt": "^3.0.7",
         "dotenv": "^8.2.0",
+        "mongod": "^2.0.0",
         "mongodb": "^3.3.4",
         "mongoose": "^5.7.7",
-        "restify": "8.4.0"
+        "nodemon": "^1.19.1",
+        "restify": "^8.4.0"
     },
     "scripts": {
         "start": "node index.js"

@@ -9,8 +9,8 @@ var mongoose = require('mongoose');
 
 var saltRound = 10;
 var Schema = mongoose.Schema;
-var PORT = process.env.PORT || 8080;
-var HOST = process.env.IP;
+var PORT = process.env.PORT || 5000;
+var HOST = process.env.IP || '127.0.0.1';
 
 //connection string, we chose Mongo DB Atlas cloud
 var uristring = process.env.MONGODB_URI || 'mongodb+srv://admin:admin@cluster0.b8raf.mongodb.net/PatientRecordsDB?retryWrites=true&w=majority';
@@ -30,12 +30,7 @@ server.use(restify.plugins.bodyParser({ mapParams: false }));
 
 server.listen(PORT, HOST, function() {
   console.log(`Server ${server.name} listening at ${server.url}`)
-  console.log('Endpoints:');
-  console.log('%s/patients method: GET, POST', server.url);
-  console.log('%s/patients/:id method: PUT, GET', server.url);
-  console.log('%s/patients/:id/:isCritical method:PUT', server.url);
-  console.log('%s/records method: GET, POST', server.url);
-  console.log('%s/records/:id method: PUT', server.url);
+
 });
 
 // GET request for patients
