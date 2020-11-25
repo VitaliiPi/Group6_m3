@@ -4,6 +4,9 @@
     "description": "Patient Records Server",
     "main": "index.js",
     "author": "Group 6",
+    "engines": {
+        "node": "14.x"
+      },
     "dependencies": {
         "bcrypt": "^3.0.7",
         "dotenv": "^8.2.0",
