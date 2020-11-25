@@ -10,7 +10,7 @@ var mongoose = require('mongoose');
 var saltRound = 10;
 var Schema = mongoose.Schema;
 var PORT = process.env.PORT || 5000;
-var HOST = process.env.IP || '127.0.0.1';
+var HOST = process.env.IP || '0.0.0.0';
 
 //connection string, we chose Mongo DB Atlas cloud
 var uristring = process.env.MONGODB_URI || 'mongodb+srv://admin:admin@cluster0.b8raf.mongodb.net/PatientRecordsDB?retryWrites=true&w=majority';
