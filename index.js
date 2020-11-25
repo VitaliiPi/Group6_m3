@@ -9,7 +9,7 @@ var mongoose = require('mongoose');
 
 var saltRound = 10;
 var Schema = mongoose.Schema;
-var PORT = process.env.PORT;
+var PORT = process.env.PORT || 8080;
 var HOST = process.env.IP;
 
 //connection string, we chose Mongo DB Atlas cloud
